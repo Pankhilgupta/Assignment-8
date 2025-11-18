@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node*left;
+    Node*right;
+    Node(int x){
+        data=x;
+        left=NULL;
+        right=NULL;
+    }
+};
+Node* insert(int x , Node* root){
+    Node*temp=root;
+    if(temp==NULL){
+        return new Node(x);
+    }
+    if(temp->data >x){
+        temp->left=insert(x,temp->left);
+    }
+    else if(temp->data < x){
+        temp->right=insert(x,temp->right);
+    }
+    return temp;
+}
+Node* search(int x , Node*root){
+    if(root==NULL || root->data ==x ){return root;}
+    if(root->data < x) {
+        return search( x, root->right );
+    }
+    if(root->data > x) {
+        return search( x, root->left );
+    }
+    return root;
+}
+Node*max(Node* root){
+    if (root==NULL) return NULL;
+    Node*temp=root;
+    while(temp->right !=NULL){
+        temp=temp->right;
+    }
+    return temp;
+}
+Node*min(Node* root){
+    if (root==NULL) return NULL;
+    Node*temp=root;
+    while(temp->left !=NULL){
+        temp=temp->left;
+    }
+    return temp;
+}
+Node*inordersuccessor(int x ,Node*root){
+    Node*temp=search(x,root);
+    if(temp->right !=NULL){ return min(temp->right);}
+    else{
+        Node*succ=NULL;
+        Node*t=root;
+        while(t!=NULL){
+            if(t->data > x){
+                succ=t;
+                t=t->left;
+            }
+            else if(t->data < x){
+                t=t->right;
+            }
+            else{
+                break;
+            }
+            
+        }
+        return succ;
+    }
+}
+Node*inorderpredecessor(int x,Node*root){
+     Node*temp=search(x,root);
+    if(temp->left != NULL) return max(temp->left);
+    else{
+         Node*pre=NULL;
+        Node*t=root;
+        while(t!=NULL){
+            if(t->data > x){
+                t=t->left;
+            }
+            else if(t->data < x){
+                pre=t;
+                t=t->right;
+            }
+            else{
+                break;
+            }
+            
+        }
+        return pre;
+    }
+}
+
+int main() {
+    Node*root=NULL;
+    root=insert(10,root);
+    root=insert(5,root);
+    root=insert(20,root);
+    root=insert(9,root);
+    root=insert(15,root);
+    if(search(20, root)) cout<<"Found 20"<<endl;
+    else cout<<" Not found 20"<<endl;
+    cout<<"Maximum: "<<max(root)->data<<endl;
+    cout<<"Minimum:  "<<min(root)->data<<endl;
+    cout<<"Inorder successor of 9: "<<inordersuccessor(9,root)->data<<endl;
+    cout<<"Inorder predecessor of 9: "<<inorderpredecessor(9,root)->data<<endl;
+    return 0;
+}
