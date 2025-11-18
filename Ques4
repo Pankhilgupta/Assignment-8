@@ -1,0 +1,50 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node*left;
+    Node*right;
+    Node(int x){
+        data=x;
+        left=NULL;
+        right=NULL;
+    }
+};
+Node* insert(int x , Node* root){
+    Node*temp=root;
+    if(temp==NULL){
+        return new Node(x);
+    }
+    if(temp->data >x){
+        temp->left=insert(x,temp->left);
+    }
+    else if(temp->data < x){
+        temp->right=insert(x,temp->right);
+    }
+    return temp;
+}
+bool check_bst(Node* root, Node* minNode = NULL, Node* maxNode = NULL){
+    if(root == NULL) return true;
+
+    if(minNode && root->data <= minNode->data) return false;
+    if(maxNode && root->data >= maxNode->data) return false;
+
+    return check_bst(root->left, minNode, root) &&
+           check_bst(root->right, root, maxNode);
+}
+
+
+
+int main() {
+    Node*root=NULL;
+    root=insert(10,root);
+    root=insert(5,root);
+    root=insert(20,root);
+    root=insert(9,root);
+    root=insert(15,root);
+    if(check_bst(root)) cout<< "BST";
+    else cout<<" Not BST";
+    return 0;
+}
