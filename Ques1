@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node*left;
+    Node*right;
+    Node(int x){
+        data=x;
+        left=NULL;
+        right=NULL;
+    }
+};
+Node* insert(int x , Node* root){
+    Node*temp=root;
+    if(temp==NULL){
+        return new Node(x);
+    }
+    if(temp->data >x){
+        temp->left=insert(x,temp->left);
+    }
+    else if(temp->data < x){
+        temp->right=insert(x,temp->right);
+    }
+    return temp;
+}
+void preorder(Node* root){
+    if (root==NULL) return;
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);
+}
+void inorder(Node* root){
+    if (root==NULL) return;
+    inorder(root->left);
+    cout<<root->data<<" ";
+    inorder(root->right);
+}
+void postorder(Node* root){
+    if (root==NULL) return;
+    postorder(root->left);
+    postorder(root->right);
+    cout<<root->data<<" ";
+}
+int main() {
+    Node*root=NULL;
+    root=insert(10,root);
+    root=insert(5,root);
+    root=insert(20,root);
+    root=insert(9,root);
+    root=insert(15,root);
+    preorder(root);
+    cout<<endl;
+    inorder(root);
+    cout<<endl;
+    postorder(root);
+    return 0;
+}
