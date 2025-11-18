@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node*left;
+    Node*right;
+    Node(int x){
+        data=x;
+        left=NULL;
+        right=NULL;
+    }
+};
+Node* insert(int x , Node* root){
+    Node*temp=root;
+    if(temp==NULL){
+        return new Node(x);
+    }
+    if(temp->data >x){
+        temp->left=insert(x,temp->left);
+    }
+    else if(temp->data < x){
+        temp->right=insert(x,temp->right);
+    }
+    return temp;
+}
+
+int main() {
+    Node*root=NULL;
+    root=insert(10,root);
+    root=insert(5,root);
+    root=insert(20,root);
+    root=insert(9,root);
+    root=insert(15,root);
+    
+    return 0;
+}
